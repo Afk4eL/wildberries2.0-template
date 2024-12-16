@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package customer_service;
+
+option go_package = "wildberries2.0-template/contracts/gen;customer_contract";
+
+service CustomerService {
+    rpc GetCustomerProfile (GetCustomerProfileRequest) returns (GetCustomerProfileResponse);
+    rpc UpdateCustomerProfile (UpdateCustomerProfileRequest) returns (UpdateCustomerProfileResponse);
+}
+
+message CustomerProfile {
+    string uuid = 1;
+    string user_id = 2;
+    repeated string preferred_categories = 3;
+}
+
+//GET
+message GetCustomerProfileRequest {
+    string customer_uuid = 1;
+}
+
+message GetCustomerProfileResponse {
+    CustomerProfile profile = 1;
+}
+//GET
+
+//UPDATE
+message UpdateCustomerProfileRequest {
+    string customer_uuid = 1;
+    CustomerProfile customer_profile = 2;
+}
+
+message UpdateCustomerProfileResponse {
+    CustomerProfile profile = 1;
+}
+//UPDATE

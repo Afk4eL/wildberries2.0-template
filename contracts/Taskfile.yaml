@@ -1,0 +1,30 @@
+version: "3"
+
+tasks:
+  grpc-generate-and-push:
+    aliases:
+      - full-gen
+    desc: "Generate code from proto files and push them on github"
+    cmds:
+      - protoc -I proto proto/customer-service/*.proto --go_out=gen/go --go_opt=paths=source_relative --go-grpc_out=gen/go --go-grpc_opt=paths=source_relative
+      - git add .
+      - git commit -m '{{.M}}'
+      - git tag -a '{{.TAG}}' -m '{{.M}}'
+      - git push -u origin '{{.B}}'
+      - git push origin --tags
+
+  grpc-generate:
+    aliases:
+      - gen
+    desc: "Generate code from proto"
+    cmds:
+      - protoc -I proto proto/customer-service/*.proto --go_out=gen/go --go_opt=paths=source_relative --go-grpc_out=gen/go --go-grpc_opt=paths=source_relative
+  
+  generate-tag:
+    aliases:
+      - tag
+    desc: "Create tag on github"
+    cmds:
+      - git tag -a '{{.TAG}}' -m '{{.M}}'
+      - git push -u origin '{{.B}}'
+      - git push origin --tags
